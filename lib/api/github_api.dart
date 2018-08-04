@@ -1,5 +1,6 @@
 import "dart:async";
 import "dart:convert";
+import 'dart:developer';
 import "dart:io";
 
 import "package:http/http.dart" as http;
@@ -12,7 +13,7 @@ class GithubApi {
   GithubApi({
     HttpClient client,
     Map<String, SearchResult> cache,
-    this.baseUrl = "https://api.gihub.com/search/repositories?q=",
+    this.baseUrl = "https://api.github.com/search/repositories?q=",
   }) : this.client = client ?? http.Client(),
        this.cache = cache ?? <String, SearchResult>{};
 
