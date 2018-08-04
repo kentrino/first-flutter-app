@@ -66,11 +66,46 @@ class RandomWordsState extends State<RandomWords> {
       return _buildRow(_suggestions[index]);
     });
   }
+
+  void _pushSaved() {
+    // contextというのがStateにはいるっぽい
+    Navigator.of(context).push(
+      new MaterialPageRoute<void>(builder: (BuildContext context) {
+        final Iterable<ListTile> tiles = _saved.map(
+          (WordPair pair) {
+            return new ListTile(
+              title: new Text(
+                pair.asPascalCase,
+                style: _biggerFont
+              )
+            );
+          }
+        );
+        final List<Widget> divided = ListTile
+          .divideTiles(
+            context: context,
+            tiles: tiles)
+          .toList();
+        return new Scaffold(
+          appBar: new AppBar(
+            title: const Text("Saved Suggestions"),
+          ),
+          body: new ListView(children: divided),
+        );
+      })
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text("Startup Name Generator"),
+        // TODO: <Widget>[] の表記は配列のコンストラクタ？
+        actions: <Widget>[
+          // TODO: constは何？
+          new IconButton(icon: const Icon(Icons.list), onPressed: _pushSaved)
+        ],
       ),
       body: _buildSuggestions()
     );
