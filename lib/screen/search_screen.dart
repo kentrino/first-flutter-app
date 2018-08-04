@@ -2,6 +2,7 @@ import "package:flutter/material.dart";
 
 import "package:first_app/api/github_api.dart";
 import "package:first_app/bloc/search_bloc.dart";
+import "package:first_app/widget/search_result_widget.dart";
 
 class SearchScreen extends StatefulWidget {
   // TODO: なぜここでblocを作ってしまわないの？
@@ -68,6 +69,9 @@ class SearchScreenState extends State<SearchScreen> {
                     child: Stack(
                       children: <Widget>[
                         // TODO: SearchResultWidget, Loadingとか実装
+                        SearchResultWidget(
+                          items: state is SearchPopulated ? state.result.items : [],
+                        )
                       ],
                     )
                 )
