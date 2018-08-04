@@ -1,4 +1,5 @@
 import "dart:async";
+import 'dart:developer';
 
 import "package:rxdart/rxdart.dart";
 
@@ -17,6 +18,9 @@ class SearchBloc {
     final term$ = PublishSubject<String>();
 
     final state$ = term$
+//      .map((String str) {
+//        return str;
+//      })
       .distinct()
       // Wait for the user to stop typing for 250ms before running a search
       .debounce(const Duration(milliseconds: 250))
@@ -37,7 +41,6 @@ class SearchBloc {
     } else {
       // TODO: どう挙動するのか後ほど調べる
       yield  SearchLoading();
-
       try {
         final result = await api.search(term);
         if (result.isEmpty) {
