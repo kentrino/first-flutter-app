@@ -28,14 +28,29 @@ class MyApp extends StatelessWidget {
 
 class RandomWordsState extends State<RandomWords> {
   final _suggestions = <WordPair>[];
+  final _saved = new Set<WordPair>();
   final _biggerFont = const TextStyle(fontSize: 18.0);
 
   Widget _buildRow(WordPair pair) {
+    final bool isAlreadySaved = _saved.contains(pair);
     return ListTile(
       title: Text(
         pair.asPascalCase,
         style: _biggerFont
-      )
+      ),
+      trailing: new Icon(
+        isAlreadySaved ? Icons.favorite : Icons.favorite_border,
+        color: isAlreadySaved ? Colors.red: null,
+      ),
+      onTap: () {
+        setState(() {
+          if (isAlreadySaved) {
+            _saved.remove(pair);
+          } else {
+            _saved.add(pair);
+          }
+        });
+      }
     );
   }
 
