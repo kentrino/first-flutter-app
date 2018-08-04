@@ -9,7 +9,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final wordPair = WordPair.random();
     return new MaterialApp(
-      title: 'Welcome to Flutter',
+      title: 'Startup Name Generator',
       theme: new ThemeData(
         // This is the theme of your application.
         //
@@ -21,23 +21,44 @@ class MyApp extends StatelessWidget {
         // counter didn't reset back to zero; the application is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text("Welcome To Flutter")
-        ),
-        body: Center(
-          child: RandomWords()
-        )
-      )
+      home: RandomWords()
     );
   }
 }
 
 class RandomWordsState extends State<RandomWords> {
+  final _suggestions = <WordPair>[];
+  final _biggerFont = const TextStyle(fontSize: 18.0);
+
+  Widget _buildRow(WordPair pair) {
+    return ListTile(
+      title: Text(
+        pair.asPascalCase,
+        style: _biggerFont
+      )
+    );
+  }
+
+  Widget _buildSuggestions() {
+    return ListView.builder(itemBuilder: (context, i) {
+      // TODO: what is Divider. 区切り？
+      if (i.isOdd) return Divider();
+      // divide and Math.floor
+      final index = i ~/ 2;
+      if (index >= _suggestions.length) {
+        _suggestions.addAll(generateWordPairs().take(10));
+      }
+      return _buildRow(_suggestions[index]);
+    });
+  }
   @override
   Widget build(BuildContext context) {
-    final wordPair = WordPair.random();
-    return Text(wordPair.asPascalCase);
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Startup Name Generator"),
+      ),
+      body: _buildSuggestions()
+    );
   }
 }
 
