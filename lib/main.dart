@@ -1,4 +1,4 @@
 import 'package:flutter/material.dart';
-import 'startup_name_generator_app.dart';
+import 'github_search_app.dart';
 
-void main() => runApp(new MyStartupNameGeneratorApp());
+void main() => runApp(new GithubSearchApp());
